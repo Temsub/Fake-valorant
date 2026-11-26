@@ -143,85 +143,55 @@
       background: #ff4655;
     }
 
-    /* iPad / mobile tactical controls */
-    html, body { overscroll-behavior: none; }
-    #game-canvas { height: 100dvh; touch-action:none; }
-    body.touch-device { touch-action:none; }
-    button, select, input { touch-action: manipulation; }
-    #touch-controls { z-index: 25; touch-action: none; user-select:none; -webkit-user-select:none; }
-    .touch-look-zone {
-      position:absolute; left:38%; right:0; top:12%; bottom:18%;
-      pointer-events:auto; touch-action:none; background:transparent;
-    }
-    .touch-joystick {
-      position:absolute; left:max(22px, env(safe-area-inset-left)); bottom:calc(max(20px, env(safe-area-inset-bottom)) + 78px);
-      width:clamp(112px, 17vw, 154px); height:clamp(112px, 17vw, 154px);
-      border-radius:50%; border:2px solid rgba(255,255,255,.35);
-      background:rgba(15,23,42,.42); pointer-events:auto; touch-action:none;
-      display:flex; align-items:center; justify-content:center; z-index:3;
-      box-shadow:0 8px 28px rgba(0,0,0,.25);
-    }
-    #touch-stick {
-      width:44%; height:44%; border-radius:50%;
-      background:rgba(244,63,94,.78); border:2px solid rgba(255,255,255,.75);
-      box-shadow:0 3px 14px rgba(0,0,0,.35); pointer-events:none;
-      transform:translate(0,0);
-    }
-    .touch-action-cluster {
-      position:absolute; right:max(20px, env(safe-area-inset-right));
-      bottom:calc(max(20px, env(safe-area-inset-bottom)) + 78px);
-      display:grid; grid-template-columns:repeat(3, clamp(54px, 7.5vw, 70px));
-      grid-template-rows:repeat(2, clamp(54px, 7.5vw, 70px)); gap:9px;
-      pointer-events:auto; z-index:4;
-    }
-    .touch-btn {
-      border:1px solid rgba(255,255,255,.65); border-radius:16px;
-      background:rgba(15,23,42,.82); color:#fff; font:700 11px Rajdhani,sans-serif;
-      letter-spacing:.06em; touch-action:none; user-select:none; -webkit-user-select:none;
-      box-shadow:0 4px 14px rgba(0,0,0,.3); min-width:0;
-    }
-    .touch-btn:active, .touch-btn.active { filter:brightness(1.35); transform:scale(.96); }
-    #btn-touch-fire { grid-column:3; grid-row:1 / span 2; border-radius:50%; background:rgba(225,29,72,.88); font-size:14px; }
-    #btn-touch-ads { grid-column:1; grid-row:1; }
-    #btn-touch-jump { grid-column:2; grid-row:1; }
-    #btn-touch-reload { grid-column:1; grid-row:2; }
-    #btn-touch-crouch { grid-column:2; grid-row:2; }
-    .touch-utility-row {
-      position:absolute; right:max(20px, env(safe-area-inset-right)); bottom:calc(max(20px, env(safe-area-inset-bottom)) + 205px);
-      display:flex; gap:8px; pointer-events:auto; z-index:4;
-    }
-    .touch-utility-row .touch-btn { min-width:58px; min-height:42px; padding:5px 8px; }
-    #touch-controls button { pointer-events:auto; }
-    #orientation-notice {
-      display:none; position:fixed; inset:0; z-index:200; background:#080d18;
-      color:white; align-items:center; justify-content:center; text-align:center;
-      padding:30px; font:700 22px Rajdhani,sans-serif;
-    }
-    @media (orientation:portrait) and (max-width:1100px) {
-      #orientation-notice { display:flex; }
-    }
-    @media (max-width:900px) {
-      #hud { padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); }
-      #hud .rounded-full { width:88px; height:88px; }
-      #hud .tactical-clip { padding:7px 9px; gap:8px; }
-      #hud-hp { font-size:24px; }
-      #hud-armor { font-size:21px; }
-      #hud-ammo-mag { font-size:27px; }
-      #hud-ammo-res { font-size:17px; }
-      #weapon-slots { display:none !important; }
-      #hud .w-48, #hud .md\:w-64 { width:auto; max-width:32vw; }
-      #hud .text-\[10px\] { font-size:9px; }
-    }
-    @media (max-height:520px) and (orientation:landscape) {
-      .touch-joystick { width:96px; height:96px; bottom:62px; }
-      .touch-action-cluster { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(2,48px); gap:5px; bottom:62px; }
-      .touch-utility-row { bottom:170px; }
-      #hud { padding-top:5px; padding-bottom:5px; }
-    }
+    /* Dual-device selection and explicit input profiles */
+    .device-select-screen.hidden,.touch-controls.hidden{display:none!important}
+    .device-select-screen{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 15%,#26364b 0,#0b1220 52%,#050811 100%);font-family:'Rajdhani',sans-serif}
+    .device-select-panel{width:min(900px,100%);padding:clamp(22px,4vw,42px);border:1px solid rgba(148,163,184,.35);background:rgba(8,13,25,.94);box-shadow:0 24px 90px #000a;text-align:center;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+    .device-kicker{color:#fb4658;font:12px 'Share Tech Mono',monospace;letter-spacing:.2em}
+    .device-select-panel h1{margin:12px 0 0;font-size:clamp(32px,6vw,58px);font-weight:700;letter-spacing:-.04em;color:#fff}
+    .device-select-panel h1 span{color:#fb4658}.device-subtitle{color:#94a3b8;margin:4px 0 28px}
+    .device-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .device-option{min-height:235px;padding:22px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#e2e8f0;background:linear-gradient(145deg,#172235,#0c1422);border:2px solid #334155;cursor:pointer;transition:.18s;touch-action:manipulation}
+    .device-option:hover,.device-option:focus-visible{border-color:#fb4658;transform:translateY(-3px);outline:none;box-shadow:0 12px 35px #fb465822}
+    .device-option strong{font-size:clamp(21px,3vw,30px);letter-spacing:.06em}.device-option small{color:#94a3b8;font-size:12px;letter-spacing:.1em}.device-option em{margin-top:12px;padding:9px 18px;background:#e11d48;color:white;font-style:normal;font-weight:700;letter-spacing:.08em}
+    .device-icon{font-size:52px;color:#fb4658;line-height:1}.last-device-mode{margin-top:20px;color:#64748b;font:11px 'Share Tech Mono',monospace;letter-spacing:.12em}
+    .device-settings-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:#0b1423;border:1px solid #334155;color:#cbd5e1;font-size:12px}.device-settings-strip b{color:#34d399}.device-settings-strip button{padding:8px 12px;background:#be123c;color:white;font-weight:700;font-size:11px}
+    .touch-controls{position:fixed;inset:0;z-index:25;pointer-events:none;touch-action:none;user-select:none;-webkit-user-select:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+    .touch-move-zone{position:absolute;left:max(22px,env(safe-area-inset-left));bottom:max(28px,env(safe-area-inset-bottom));width:clamp(116px,17vw,158px);height:clamp(116px,17vw,158px);border:2px solid #ffffff55;border-radius:50%;background:#ffffff13;pointer-events:auto;display:flex;align-items:center;justify-content:center;touch-action:none}
+    .touch-stick{width:42%;height:42%;border-radius:50%;background:#e11d48bb;border:2px solid #ffffff99;box-shadow:0 4px 20px #0008;pointer-events:none;transform:translate(0,0)}.stick-label{position:absolute;bottom:8px;font-size:9px;letter-spacing:.15em;color:#cbd5e899;pointer-events:none}
+    .touch-combat-right{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:flex-end;gap:9px;pointer-events:auto}
+    .touch-combat-left{position:absolute;left:max(22px,env(safe-area-inset-left));bottom:clamp(175px,24vh,220px);display:flex;flex-direction:column;gap:8px;pointer-events:auto}
+    .touch-button-row{display:flex;gap:8px}.touch-btn{min-width:58px;min-height:54px;padding:8px 11px;border:1px solid #ffffff88;border-radius:12px;background:#172235dd;color:#fff;font:700 11px 'Rajdhani',sans-serif;letter-spacing:.06em;box-shadow:0 5px 15px #0008;touch-action:none;pointer-events:auto}.touch-btn:active,.touch-btn.active{background:#be123c;border-color:#fff}.touch-fire{width:clamp(76px,10vw,96px);height:clamp(76px,10vw,96px);border-radius:50%;background:#be123cee;border:3px solid #fff;font-size:14px}.touch-small{min-width:68px;min-height:42px;font-size:10px}.touch-wide{min-width:150px}
+    #portrait-warning{display:none;position:fixed;inset:0;z-index:190;background:#070b14;color:#fff;align-items:center;justify-content:center;text-align:center;font:700 20px 'Rajdhani',sans-serif;letter-spacing:.1em;padding:30px}
+    body.ipad-mode,body.ipad-mode #game-canvas,body.ipad-mode .touch-controls{touch-action:none}
+    @media (orientation:portrait){body.ipad-mode #portrait-warning{display:flex}}
+    @media(max-width:650px){.device-options{grid-template-columns:1fr}.device-option{min-height:155px}.device-select-panel{padding:20px}.touch-combat-left{bottom:170px}.touch-btn{min-width:50px;min-height:48px;padding:6px 8px}.touch-fire{width:72px;height:72px}}
 
   </style>
 </head>
 <body>
+
+  <!-- DEVICE MODE SELECTOR -->
+  <div id="device-select-screen" class="device-select-screen">
+    <div class="device-select-panel">
+      <div class="device-kicker">PROJECT STRIKE // PLATFORM CONFIGURATION</div>
+      <h1>SELECT <span>DEVICE MODE</span></h1>
+      <p class="device-subtitle">เลือกวิธีควบคุมก่อนเข้าสู่สนามรบ</p>
+      <div class="device-options">
+        <button class="device-option" id="select-pc-mode" type="button">
+          <span class="device-icon">▣</span><strong>PC / DESKTOP</strong>
+          <small>KEYBOARD &amp; MOUSE CONTROLS</small><em>SELECT PC MODE</em>
+        </button>
+        <button class="device-option" id="select-ipad-mode" type="button">
+          <span class="device-icon">▤</span><strong>iPAD / TOUCH</strong>
+          <small>FULL TOUCHSCREEN CONTROLS</small><em>SELECT iPAD MODE</em>
+        </button>
+      </div>
+      <div id="last-device-mode" class="last-device-mode">SELECT A CONTROL PROFILE TO CONTINUE</div>
+    </div>
+  </div>
+
+  <div id="portrait-warning">ROTATE YOUR DEVICE TO LANDSCAPE</div>
 
   <!-- Google Sites / iframe compatibility notice -->
   <div id="embed-launch-panel">
@@ -389,26 +359,26 @@
     </div>
   </div>
 
-  <!-- iPad / Mobile Multi-Touch Controls -->
-  <div id="touch-controls" class="fixed inset-0 pointer-events-none hidden">
-    <div id="touch-look-zone" class="touch-look-zone" aria-label="Drag to look"></div>
-    <div id="touch-move-zone" class="touch-joystick" aria-label="Movement joystick">
-      <div id="touch-stick"></div>
+  <!-- iPAD TOUCH CONTROLS: enabled only in explicit iPAD mode -->
+  <div id="touch-controls" class="touch-controls hidden">
+    <div id="touch-move-zone" class="touch-move-zone" aria-label="Movement joystick"><div id="touch-stick" class="touch-stick"></div><span class="stick-label">MOVE</span></div>
+    <div class="touch-combat-left">
+      <button id="btn-touch-sprint" class="touch-btn touch-small" data-action="sprint">SPRINT</button>
+      <button id="btn-touch-crouch" class="touch-btn touch-small" data-action="crouch">CROUCH</button>
+      <button id="btn-touch-interact" class="touch-btn touch-small" data-action="interact">USE</button>
     </div>
-    <div class="touch-utility-row">
-      <button id="btn-touch-sprint" class="touch-btn" type="button">SPRINT</button>
-      <button id="btn-touch-interact" class="touch-btn" type="button">USE</button>
-      <button id="btn-touch-weapon" class="touch-btn" type="button">SWAP</button>
-    </div>
-    <div class="touch-action-cluster">
-      <button id="btn-touch-ads" class="touch-btn" type="button">ADS</button>
-      <button id="btn-touch-jump" class="touch-btn" type="button">JUMP</button>
-      <button id="btn-touch-fire" class="touch-btn" type="button">FIRE</button>
-      <button id="btn-touch-reload" class="touch-btn" type="button">RELOAD</button>
-      <button id="btn-touch-crouch" class="touch-btn" type="button">CROUCH</button>
+    <div class="touch-combat-right">
+      <button id="btn-touch-fire" class="touch-btn touch-fire" data-action="fire">FIRE</button>
+      <div class="touch-button-row">
+        <button id="btn-touch-ads" class="touch-btn" data-action="ads">ADS</button>
+        <button id="btn-touch-jump" class="touch-btn" data-action="jump">JUMP</button>
+        <button id="btn-touch-reload" class="touch-btn" data-action="reload">RLD</button>
+      </div>
+      <div class="touch-button-row">
+        <button id="btn-touch-weapon" class="touch-btn touch-wide" data-action="weapon">SWAP WEAPON</button>
+      </div>
     </div>
   </div>
-  <div id="orientation-notice">↻<br><br>กรุณาหมุน iPad เป็นแนวนอน<br><span style="font-size:14px;font-weight:500">PROJECT STRIKE is designed for Landscape mode</span></div>
 
   <!-- SCOREBOARD OVERLAY (Hold TAB) -->
   <div id="scoreboard-overlay" class="fixed inset-0 z-30 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4 pointer-events-none">
@@ -586,6 +556,7 @@
         <!-- TAB 3: SETTINGS -->
         <div id="tab-settings" class="hidden space-y-4">
           <h2 class="text-xl font-bold tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-2">SYSTEM & COMBAT SETTINGS</h2>
+          <div class="device-settings-strip"><span>DEVICE MODE: <b id="current-device-mode-label">NOT SELECTED</b></span><button type="button" id="change-device-mode">CHANGE DEVICE MODE</button></div>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             <div>
@@ -597,11 +568,8 @@
             </div>
 
             <div>
-              <label class="flex justify-between text-slate-300 font-bold mb-1">
-                <span>TOUCH SENSITIVITY</span>
-                <span id="val-touch-sens" class="mono text-rose-400">1.0</span>
-              </label>
-              <input id="set-touch-sens" type="range" min="0.2" max="3.0" step="0.1" value="1.0" oninput="updateSettings()" class="w-full accent-rose-500">
+              <label class="flex justify-between text-slate-300 font-bold mb-1"><span>TOUCH SENSITIVITY</span><span id="val-touch-sens" class="mono text-rose-400">1.0</span></label>
+              <input id="set-touch-sens" type="range" min="0.3" max="3.0" step="0.1" value="1.0" oninput="updateSettings()" class="w-full accent-rose-500">
             </div>
             <div>
               <label class="flex justify-between text-slate-300 font-bold mb-1">
@@ -658,7 +626,7 @@
 
         <div class="text-[11px] text-slate-500 flex justify-between items-center pt-3 border-t border-slate-800/80">
           <span>ENGINE: THREE.JS WEBGL + PROCEDURAL AUDIO</span>
-          <span>PC: MOUSE LOOK • iPAD: TOUCH LOOK + MULTI-TOUCH</span>
+          <span>CLICK DEPLOY TO LOCK MOUSE</span>
         </div>
       </div>
     </div>
@@ -1161,19 +1129,15 @@ const state = {
   }
 };
 
-// Device capability detection shared by rendering and settings code.
-// Keep this at top-level so every function can safely reference it.
-const isTouch = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
-
 // Input tracking
 const keys = {};
-let isMouseDown = false; // Mouse fire only; touch fire is tracked independently.
-let touchFirePointers = new Set();
+let isMouseDown = false;
 let touchMoveVec = { x: 0, y: 0 };
-let touchSprintActive = false;
-let touchCrouchActive = false;
-let touchAdsActive = false;
-let activeTouchPointers = new Map();
+const DEVICE_MODE = Object.freeze({ PC: 'PC', IPAD: 'IPAD' });
+let currentDeviceMode = null;
+let pcInputController = null;
+let ipadInputController = null;
+let engineStarted = false;
 
 // Three.js Core Globals
 let scene, camera, renderer, dirLight;
@@ -2163,7 +2127,6 @@ function finishSnDRound(winnerTeam, reason) {
 function endMatch(playerWon) {
   state.matchOver = true;
   state.isPaused = true;
-  document.getElementById('touch-controls').classList.add('hidden');
   if (document.pointerLockElement) document.exitPointerLock();
 
   document.getElementById('result-title').textContent = playerWon ? 'VICTORY' : 'DEFEAT';
@@ -2306,7 +2269,7 @@ function updatePlayer(dt) {
   }
 
   // Continuous automatic fire
-  if ((isMouseDown || touchFirePointers.size > 0) && w.auto && p.alive && !state.isPaused) {
+  if (isMouseDown && w.auto && p.alive && !state.isPaused) {
     firePlayerWeapon();
   }
 
@@ -2315,7 +2278,7 @@ function updatePlayer(dt) {
   p.recoilYaw = THREE.MathUtils.lerp(p.recoilYaw, 0, dt * 10);
 
   // Smooth Crouch Height
-  p.isCrouching = !!keys['ControlLeft'] || !!keys['ControlRight'] || touchCrouchActive;
+  p.isCrouching = !!keys['ControlLeft'] || !!keys['ControlRight'];
   const targetH = p.isCrouching ? 1.15 : 1.75;
   p.currentHeight = THREE.MathUtils.lerp(p.currentHeight, targetH, dt * 14);
 
@@ -2337,7 +2300,7 @@ function updatePlayer(dt) {
       strafe /= inputLen;
     }
 
-    p.isSprinting = (!!keys['ShiftLeft'] || !!keys['ShiftRight'] || touchSprintActive || (Math.hypot(touchMoveVec.x, touchMoveVec.y) > 0.94 && forward > 0.1)) && !p.isCrouching && !p.isAds && forward > 0.1;
+    p.isSprinting = (keys['ShiftLeft'] || keys['ShiftRight']) && !p.isCrouching && !p.isAds && forward > 0.1;
     let moveSpeed = 7.2;
     if (p.isCrouching) moveSpeed = 3.8;
     else if (p.isAds) moveSpeed = 4.6;
@@ -2693,7 +2656,7 @@ function buyArmor() {
 function closeBuyMenu() {
   document.getElementById('buy-menu-overlay').classList.add('hidden');
   state.isPaused = false;
-  requestCanvasPointerLock();
+  if (currentDeviceMode === DEVICE_MODE.PC) requestCanvasPointerLock();
 }
 
 // ----------------------------------------------------------------------------
@@ -2747,20 +2710,18 @@ function populateMenuArsenal() {
 }
 
 function updateSettings() {
-  const sens = parseFloat(document.getElementById('set-sens').value);
   const touchSensEl = document.getElementById('set-touch-sens');
-  const touchSens = touchSensEl ? parseFloat(touchSensEl.value) : (state.settings.touchSensitivity || 1.0);
+  if (touchSensEl) { state.settings.touchSensitivity = parseFloat(touchSensEl.value); document.getElementById('val-touch-sens').textContent = state.settings.touchSensitivity.toFixed(1); }
+  const sens = parseFloat(document.getElementById('set-sens').value);
   const fov = parseInt(document.getElementById('set-fov').value, 10);
   const sfx = parseInt(document.getElementById('set-sfx').value, 10) / 100;
   const music = parseInt(document.getElementById('set-music').value, 10) / 100;
   const gfx = document.getElementById('set-gfx').value;
   const chColor = document.getElementById('set-ch-color').value;
 
-  state.settings = { ...state.settings, sensitivity: sens, touchSensitivity: touchSens, fov, sfx, music, gfx, crosshairColor: chColor };
+  state.settings = { sensitivity: sens, touchSensitivity: touchSensEl ? parseFloat(touchSensEl.value) : 1.0, fov, sfx, music, gfx, crosshairColor: chColor };
 
   document.getElementById('val-sens').textContent = sens.toFixed(1);
-  const touchSensLabel = document.getElementById('val-touch-sens');
-  if (touchSensLabel) touchSensLabel.textContent = touchSens.toFixed(1);
   document.getElementById('val-fov').textContent = `${fov}°`;
   document.getElementById('val-sfx').textContent = `${Math.round(sfx * 100)}%`;
   document.getElementById('val-music').textContent = `${Math.round(music * 100)}%`;
@@ -2776,15 +2737,13 @@ function updateSettings() {
   if (renderer && dirLight) {
     if (gfx === 'LOW') {
       renderer.setPixelRatio(1);
-      renderer.shadowMap.enabled = false;
       dirLight.castShadow = false;
     } else if (gfx === 'MEDIUM') {
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isTouch ? 1.35 : 1.5));
-      dirLight.castShadow = !isTouch;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, currentDeviceMode === DEVICE_MODE.IPAD ? 1.5 : 1.75));
+      dirLight.castShadow = true;
     } else {
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
-      renderer.shadowMap.enabled = !((('ontouchstart' in window) || navigator.maxTouchPoints > 0));
-      dirLight.castShadow = renderer.shadowMap.enabled;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      dirLight.castShadow = true;
     }
   }
 }
@@ -2850,7 +2809,6 @@ function startOrResumeGame() {
   sound.init();
   document.getElementById('main-menu').classList.add('hidden');
   document.getElementById('hud').classList.remove('hidden');
-  if ((('ontouchstart' in window) || navigator.maxTouchPoints > 0)) document.getElementById('touch-controls').classList.remove('hidden');
 
   if (!state.isPlaying) {
     state.isPlaying = true;
@@ -2858,8 +2816,8 @@ function startOrResumeGame() {
   }
 
   state.isPaused = false;
-  // Must run synchronously during this real button click.
-  if (!(('ontouchstart' in window) || navigator.maxTouchPoints > 0)) requestCanvasPointerLock();
+  // Pointer Lock is a PC-only feature; iPad uses direct touch look.
+  if (currentDeviceMode === DEVICE_MODE.PC) requestCanvasPointerLock();
 }
 
 function openPauseMenu() {
@@ -2875,11 +2833,10 @@ function restartFullMatch() {
   document.getElementById('main-menu').classList.add('hidden');
   document.getElementById('match-result-modal').classList.add('hidden');
   document.getElementById('hud').classList.remove('hidden');
-  document.getElementById('touch-controls').classList.remove('hidden');
   state.isPlaying = true;
   state.isPaused = false;
   startMatch();
-  if (!(('ontouchstart' in window) || navigator.maxTouchPoints > 0)) requestCanvasPointerLock();
+  if (currentDeviceMode === DEVICE_MODE.PC) requestCanvasPointerLock();
 }
 
 function exitToTitle() {
@@ -2888,7 +2845,6 @@ function exitToTitle() {
   state.matchOver = false;
   if (document.pointerLockElement) document.exitPointerLock();
   document.getElementById('hud').classList.add('hidden');
-  document.getElementById('touch-controls').classList.add('hidden');
   document.getElementById('match-result-modal').classList.add('hidden');
   document.getElementById('btn-play-label').textContent = 'DEPLOY TO ARENA';
   document.getElementById('btn-restart-match').classList.add('hidden');
@@ -2898,302 +2854,174 @@ function exitToTitle() {
 // ----------------------------------------------------------------------------
 // 14. EVENT LISTENERS (KEYBOARD, MOUSE, POINTER LOCK, TOUCH)
 // ----------------------------------------------------------------------------
-function setupInputEvents() {
-  window.addEventListener('keydown', (e) => {
-    keys[e.code] = true;
-
-    if (e.code === 'Tab') {
-      e.preventDefault();
-      if (state.isPlaying && !state.isPaused) {
-        updateScoreboard();
-        document.getElementById('scoreboard-overlay').classList.remove('hidden');
-      }
-    }
-
-    if (!state.isPlaying || state.isPaused) return;
-
-    if (e.code === 'KeyR') triggerReload();
-    if (e.code === 'Digit1') switchWeapon(0);
-    if (e.code === 'Digit2') switchWeapon(1);
-    if (e.code === 'Digit3') switchWeapon(2);
-    if (e.code === 'Digit4') switchWeapon(3);
-    if (e.code === 'Digit5') switchWeapon(4);
-    if (e.code === 'KeyB') toggleBuyMenu();
-  });
-
-  window.addEventListener('keyup', (e) => {
-    keys[e.code] = false;
-    if (e.code === 'Tab') {
-      document.getElementById('scoreboard-overlay').classList.add('hidden');
-    }
-  });
-
-  // Mouse Look
-  window.addEventListener('mousemove', (e) => {
-    const canvas = document.getElementById('game-canvas');
-    if (!state.isPlaying || state.isPaused ||
-        document.pointerLockElement !== canvas) return;
-
-    const adsMult = state.player.isAds
-      ? (getCurrentWeapon().id === 'sniper' ? 0.35 : 0.65)
-      : 1.0;
-    const sens = 0.0022 * state.settings.sensitivity * adsMult;
-
-    state.player.yaw -= e.movementX * sens;
-    state.player.pitch -= e.movementY * sens;
-    state.player.pitch = Math.max(
-      -Math.PI / 2 + 0.05,
-      Math.min(Math.PI / 2 - 0.05, state.player.pitch)
-    );
-  });
-
-  // Mouse Fire & ADS
-  const canvas = document.getElementById('game-canvas');
-  canvas.addEventListener('mousedown', (e) => {
-    if (!state.isPlaying) return;
-    if (state.isPaused) return;
-
-    if (document.pointerLockElement !== canvas) {
-      requestCanvasPointerLock();
-    }
-
-    if (e.button === 0) {
-      isMouseDown = true;
-      firePlayerWeapon();
-    } else if (e.button === 2 && state.player.alive && !state.player.isReloading) {
-      state.player.isAds = !state.player.isAds;
-      const isSniper = getCurrentWeapon().id === 'sniper';
-      document.getElementById('sniper-scope').style.display = (state.player.isAds && isSniper) ? 'block' : 'none';
-      if (weaponGroup) weaponGroup.visible = !(state.player.isAds && isSniper);
-    }
-  });
-
-  window.addEventListener('mouseup', (e) => {
-    if (e.button === 0) isMouseDown = false;
-  });
-
-  window.addEventListener('contextmenu', (e) => e.preventDefault());
-
-  // Pointer Lock Change -> Sync pause state with the browser.
-  document.addEventListener('pointerlockchange', () => {
-    const locked = document.pointerLockElement === canvas;
-    if (locked) {
-      // Keep gameplay active once the browser has actually locked the mouse.
-      if (state.isPlaying && !state.matchOver) state.isPaused = false;
-    } else if (
-      !touchDevice && state.isPlaying &&
-      !state.isPaused &&
-      !state.matchOver &&
-      document.getElementById('buy-menu-overlay').classList.contains('hidden')
-    ) {
-      openPauseMenu();
-    }
-  });
-
-  // Give the player another clear way to capture the mouse after Deploy.
-  canvas.addEventListener('click', () => {
-    if (state.isPlaying && !state.isPaused &&
-        document.pointerLockElement !== canvas) {
-      requestCanvasPointerLock();
-    }
-  });
-
-  document.addEventListener('pointerlockerror', () => {
-    console.error('Browser denied Pointer Lock. Check whether the game is inside an iframe or preview.');
-    showPointerLockHelp();
-  });
-
-  // Pointer Events provide independent IDs for joystick, camera and combat fingers.
-  const touchControls = document.getElementById('touch-controls');
-  const moveZone = document.getElementById('touch-move-zone');
+function resetAllInputs() {
+  for (const key of Object.keys(keys)) keys[key] = false;
+  isMouseDown = false;
+  touchMoveVec = { x: 0, y: 0 };
+  state.player.isSprinting = false;
+  state.player.isCrouching = false;
   const stick = document.getElementById('touch-stick');
-  const lookZone = document.getElementById('touch-look-zone');
-  const touchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+  if (stick) stick.style.transform = 'translate(0px, 0px)';
+  document.querySelectorAll('.touch-btn.active').forEach(el => el.classList.remove('active'));
+}
 
-  if (touchDevice) {
-    document.body.classList.add('touch-device');
-    let movePointerId = null;
-    let lookPointerId = null;
-    let lookLastX = 0, lookLastY = 0;
-    let moveRect = null;
-    const buttonPointers = new Map();
-
-    const resetMove = () => {
-      movePointerId = null;
-      touchMoveVec = { x: 0, y: 0 };
-      moveRect = null;
-      stick.style.transform = 'translate(0px, 0px)';
-      moveZone.classList.remove('active');
-    };
-    const resetLook = () => { lookPointerId = null; };
-    const resetAllTouchInput = () => {
-      resetMove(); resetLook();
-      touchFirePointers.clear();
-      touchSprintActive = false;
-      touchCrouchActive = false;
-      touchAdsActive = false;
-      touchMoveVec = { x: 0, y: 0 };
-      for (const [el] of buttonPointers) el.classList.remove('active');
-      buttonPointers.clear();
-      activeTouchPointers.clear();
-      isMouseDown = false;
-      keys['Space'] = false;
-      keys['KeyE'] = false;
-      state.player.isAds = false;
-      document.getElementById('sniper-scope').style.display = 'none';
-      if (weaponGroup) weaponGroup.visible = true;
-    };
-
-    const updateJoystick = (e) => {
-      if (movePointerId !== e.pointerId) return;
-      const rect = moveRect || moveZone.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const maxR = rect.width * 0.34;
-      let dx = e.clientX - cx, dy = e.clientY - cy;
-      const len = Math.hypot(dx, dy);
-      if (len > maxR) { dx = dx / len * maxR; dy = dy / len * maxR; }
-      touchMoveVec = { x: dx / maxR, y: dy / maxR };
-      stick.style.transform = `translate(${dx}px, ${dy}px)`;
-    };
-
-    moveZone.addEventListener('pointerdown', (e) => {
-      if (!state.isPlaying || state.isPaused || movePointerId !== null) return;
-      e.preventDefault();
-      movePointerId = e.pointerId;
-      moveRect = moveZone.getBoundingClientRect();
-      activeTouchPointers.set(e.pointerId, 'move');
-      moveZone.setPointerCapture(e.pointerId);
-      moveZone.classList.add('active');
-      updateJoystick(e);
-    });
-    moveZone.addEventListener('pointermove', (e) => { if (movePointerId === e.pointerId) { e.preventDefault(); updateJoystick(e); } });
-    moveZone.addEventListener('pointerup', (e) => { if (movePointerId === e.pointerId) { activeTouchPointers.delete(e.pointerId); resetMove(); } });
-    moveZone.addEventListener('pointercancel', (e) => { if (movePointerId === e.pointerId) { activeTouchPointers.delete(e.pointerId); resetMove(); } });
-    moveZone.addEventListener('lostpointercapture', (e) => { if (movePointerId === e.pointerId) resetMove(); });
-
-    lookZone.addEventListener('pointerdown', (e) => {
-      if (!state.isPlaying || state.isPaused || lookPointerId !== null) return;
-      e.preventDefault();
-      lookPointerId = e.pointerId;
-      lookLastX = e.clientX; lookLastY = e.clientY;
-      activeTouchPointers.set(e.pointerId, 'look');
-      lookZone.setPointerCapture(e.pointerId);
-    });
-    lookZone.addEventListener('pointermove', (e) => {
-      if (lookPointerId !== e.pointerId) return;
-      e.preventDefault();
-      const dx = e.clientX - lookLastX, dy = e.clientY - lookLastY;
-      lookLastX = e.clientX; lookLastY = e.clientY;
-      const adsMult = state.player.isAds ? (getCurrentWeapon().id === 'sniper' ? 0.42 : 0.68) : 1;
-      const sens = 0.0030 * (state.settings.touchSensitivity || 1) * adsMult;
-      state.player.yaw -= dx * sens;
-      state.player.pitch = THREE.MathUtils.clamp(state.player.pitch - dy * sens, -Math.PI / 2 + 0.05, Math.PI / 2 - 0.05);
-    });
-    const endLook = (e) => {
-      if (lookPointerId === e.pointerId) { activeTouchPointers.delete(e.pointerId); resetLook(); }
-    };
-    lookZone.addEventListener('pointerup', endLook);
-    lookZone.addEventListener('pointercancel', endLook);
-    lookZone.addEventListener('lostpointercapture', endLook);
-
-    const bindButton = (id, down, up, options = {}) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.addEventListener('pointerdown', (e) => {
-        e.preventDefault(); e.stopPropagation();
-        if (!state.isPlaying || state.isPaused) return;
-        if (options.multi === false && buttonPointers.has(el)) return;
-        el.setPointerCapture(e.pointerId);
-        buttonPointers.set(el, e.pointerId);
-        activeTouchPointers.set(e.pointerId, id);
-        el.classList.add('active');
-        if (down) down(e);
-      });
-      const release = (e) => {
-        if (buttonPointers.get(el) !== e.pointerId) return;
-        e.preventDefault(); e.stopPropagation();
-        buttonPointers.delete(el);
-        activeTouchPointers.delete(e.pointerId);
-        if (up) up(e);
-        if (!buttonPointers.has(el)) el.classList.remove('active');
-      };
-      el.addEventListener('pointerup', release);
-      el.addEventListener('pointercancel', release);
-      el.addEventListener('lostpointercapture', release);
-      el.addEventListener('contextmenu', e => e.preventDefault());
-    };
-
-    // Fire is tracked by pointer ID so releasing one finger never cancels another.
-    const fireBtn = document.getElementById('btn-touch-fire');
-    fireBtn.addEventListener('pointerdown', e => {
-      e.preventDefault(); e.stopPropagation();
+class PCInputController {
+  constructor() { this.listeners = []; this.canvas = document.getElementById('game-canvas'); }
+  on(target, type, handler, options) { target.addEventListener(type, handler, options); this.listeners.push([target, type, handler, options]); }
+  enable() {
+    const canvas = this.canvas;
+    this.on(window, 'keydown', e => {
+      if (currentDeviceMode !== DEVICE_MODE.PC) return;
+      keys[e.code] = true;
+      if (e.code === 'Tab') { e.preventDefault(); if (state.isPlaying && !state.isPaused) { updateScoreboard(); document.getElementById('scoreboard-overlay').classList.remove('hidden'); } }
       if (!state.isPlaying || state.isPaused) return;
-      fireBtn.setPointerCapture(e.pointerId);
-      touchFirePointers.add(e.pointerId);
-      activeTouchPointers.set(e.pointerId, 'fire');
-      fireBtn.classList.add('active');
-      firePlayerWeapon();
+      if (e.code === 'KeyR') triggerReload();
+      if (e.code === 'Digit1') switchWeapon(0); if (e.code === 'Digit2') switchWeapon(1);
+      if (e.code === 'Digit3') switchWeapon(2); if (e.code === 'Digit4') switchWeapon(3);
+      if (e.code === 'Digit5') switchWeapon(4); if (e.code === 'KeyB') toggleBuyMenu();
     });
-    const releaseFire = e => {
-      touchFirePointers.delete(e.pointerId);
-      activeTouchPointers.delete(e.pointerId);
-      if (touchFirePointers.size === 0) fireBtn.classList.remove('active');
-    };
-    fireBtn.addEventListener('pointerup', releaseFire);
-    fireBtn.addEventListener('pointercancel', releaseFire);
-    fireBtn.addEventListener('lostpointercapture', releaseFire);
-    fireBtn.addEventListener('contextmenu', e => e.preventDefault());
-
-    bindButton('btn-touch-jump', () => { keys['Space'] = true; }, () => { keys['Space'] = false; });
-    bindButton('btn-touch-reload', () => triggerReload());
-    bindButton('btn-touch-ads', () => {
-      state.player.isAds = !state.player.isAds;
-      const sniper = state.player.isAds && getCurrentWeapon().id === 'sniper';
-      document.getElementById('sniper-scope').style.display = sniper ? 'block' : 'none';
-      if (weaponGroup) weaponGroup.visible = !sniper;
+    this.on(window, 'keyup', e => { keys[e.code] = false; if (e.code === 'Tab') document.getElementById('scoreboard-overlay').classList.add('hidden'); });
+    this.on(window, 'blur', resetAllInputs);
+    this.on(document, 'visibilitychange', () => { if (document.hidden) resetAllInputs(); });
+    this.on(window, 'mousemove', e => {
+      if (currentDeviceMode !== DEVICE_MODE.PC || !state.isPlaying || state.isPaused || document.pointerLockElement !== canvas) return;
+      const adsMult = state.player.isAds ? (getCurrentWeapon().id === 'sniper' ? 0.35 : 0.65) : 1;
+      const sens = 0.0022 * state.settings.sensitivity * adsMult;
+      state.player.yaw -= e.movementX * sens; state.player.pitch -= e.movementY * sens;
+      state.player.pitch = Math.max(-Math.PI / 2 + 0.05, Math.min(Math.PI / 2 - 0.05, state.player.pitch));
     });
-    bindButton('btn-touch-crouch', () => { touchCrouchActive = !touchCrouchActive; });
-    bindButton('btn-touch-sprint', () => { touchSprintActive = true; }, () => { touchSprintActive = false; });
-    bindButton('btn-touch-interact', () => { keys['KeyE'] = true; }, () => { keys['KeyE'] = false; });
-    bindButton('btn-touch-weapon', () => switchWeapon((state.player.weaponIndex + 1) % WEAPONS.length));
-
-    // Prevent browser gestures only inside the game surface.
-    [touchControls, moveZone, lookZone, canvas].forEach(el => {
-      el.addEventListener('contextmenu', e => e.preventDefault());
-      el.addEventListener('dragstart', e => e.preventDefault());
+    this.on(canvas, 'mousedown', e => {
+      if (currentDeviceMode !== DEVICE_MODE.PC || !state.isPlaying || state.isPaused) return;
+      if (document.pointerLockElement !== canvas) requestCanvasPointerLock();
+      if (e.button === 0) { isMouseDown = true; firePlayerWeapon(); }
+      else if (e.button === 2 && state.player.alive && !state.player.isReloading) togglePlayerADS();
     });
-    document.addEventListener('pointerup', e => {
-      if (activeTouchPointers.has(e.pointerId)) {
-        activeTouchPointers.delete(e.pointerId);
-        touchFirePointers.delete(e.pointerId);
-      }
+    this.on(window, 'mouseup', e => { if (e.button === 0) isMouseDown = false; });
+    this.on(window, 'contextmenu', e => { if (currentDeviceMode === DEVICE_MODE.PC) e.preventDefault(); });
+    this.on(document, 'pointerlockchange', () => {
+      if (currentDeviceMode !== DEVICE_MODE.PC) return;
+      const locked = document.pointerLockElement === canvas;
+      if (locked) { if (state.isPlaying && !state.matchOver) state.isPaused = false; }
+      else if (state.isPlaying && !state.isPaused && !state.matchOver && document.getElementById('buy-menu-overlay').classList.contains('hidden')) openPauseMenu();
     });
-    window.addEventListener('blur', resetAllTouchInput);
-    document.addEventListener('visibilitychange', () => { if (document.hidden) resetAllTouchInput(); });
-    window.addEventListener('pagehide', resetAllTouchInput);
-    window.addEventListener('orientationchange', () => {
-      resetAllTouchInput();
-      setTimeout(() => { if (camera && renderer) resizeGameViewport(); }, 120);
-    });
+    this.on(canvas, 'click', () => { if (currentDeviceMode === DEVICE_MODE.PC && state.isPlaying && !state.isPaused && document.pointerLockElement !== canvas) requestCanvasPointerLock(); });
+    this.on(document, 'pointerlockerror', () => { if (currentDeviceMode === DEVICE_MODE.PC) showPointerLockHelp(); });
   }
+  disable() { this.listeners.forEach(([t, type, fn, opts]) => t.removeEventListener(type, fn, opts)); this.listeners = []; resetAllInputs(); }
+}
+
+class IPadInputController {
+  constructor() { this.listeners = []; this.lookId = null; this.moveId = null; this.lastX = 0; this.lastY = 0; this.moveZone = document.getElementById('touch-move-zone'); this.canvas = document.getElementById('game-canvas'); }
+  on(target, type, handler, options) { target.addEventListener(type, handler, options); this.listeners.push([target, type, handler, options]); }
+  enable() {
+    const c = this.canvas;
+    this.on(c, 'contextmenu', e => e.preventDefault());
+    this.on(c, 'pointerdown', e => {
+      if (currentDeviceMode !== DEVICE_MODE.IPAD || !state.isPlaying || state.isPaused || e.clientX < window.innerWidth * 0.38 || this.lookId !== null) return;
+      this.lookId = e.pointerId; this.lastX = e.clientX; this.lastY = e.clientY;
+      try { c.setPointerCapture(e.pointerId); } catch (_) {}
+      e.preventDefault();
+    });
+    this.on(window, 'pointermove', e => {
+      if (currentDeviceMode !== DEVICE_MODE.IPAD || e.pointerId !== this.lookId || !state.isPlaying || state.isPaused) return;
+      const dx = e.clientX - this.lastX, dy = e.clientY - this.lastY; this.lastX = e.clientX; this.lastY = e.clientY;
+      const adsMult = state.player.isAds ? (getCurrentWeapon().id === 'sniper' ? 0.35 : 0.65) : 1;
+      const sens = 0.0042 * (state.settings.touchSensitivity || 1) * adsMult;
+      state.player.yaw -= dx * sens; state.player.pitch -= dy * sens;
+      state.player.pitch = Math.max(-1.4, Math.min(1.4, state.player.pitch)); e.preventDefault();
+    }, { passive: false });
+    const releaseLook = e => { if (e.pointerId === this.lookId) this.lookId = null; };
+    this.on(window, 'pointerup', releaseLook); this.on(window, 'pointercancel', releaseLook);
+    this.on(this.moveZone, 'pointerdown', e => {
+      if (currentDeviceMode !== DEVICE_MODE.IPAD || this.moveId !== null) return;
+      this.moveId = e.pointerId; try { this.moveZone.setPointerCapture(e.pointerId); } catch (_) {}
+      this.updateJoystick(e); e.preventDefault();
+    }, { passive: false });
+    this.on(this.moveZone, 'pointermove', e => { if (e.pointerId === this.moveId) { this.updateJoystick(e); e.preventDefault(); } }, { passive: false });
+    const releaseMove = e => { if (e.pointerId === this.moveId) { this.moveId = null; touchMoveVec = {x:0,y:0}; const stick=document.getElementById('touch-stick'); stick.style.transform='translate(0px, 0px)'; } };
+    this.on(this.moveZone, 'pointerup', releaseMove); this.on(this.moveZone, 'pointercancel', releaseMove); this.on(this.moveZone, 'lostpointercapture', releaseMove);
+    document.querySelectorAll('#touch-controls [data-action]').forEach(btn => {
+      const action = btn.dataset.action;
+      const down = e => { if (currentDeviceMode !== DEVICE_MODE.IPAD) return; e.preventDefault(); try { btn.setPointerCapture(e.pointerId); } catch (_) {} btn.classList.add('active'); this.action(action, true); };
+      const up = e => { e.preventDefault(); btn.classList.remove('active'); this.action(action, false); };
+      this.on(btn, 'pointerdown', down, {passive:false}); this.on(btn, 'pointerup', up, {passive:false}); this.on(btn, 'pointercancel', up, {passive:false}); this.on(btn, 'lostpointercapture', up, {passive:false});
+    });
+    this.on(window, 'blur', () => resetAllInputs());
+    this.on(document, 'visibilitychange', () => { if (document.hidden) resetAllInputs(); });
+  }
+  updateJoystick(e) {
+    const r = this.moveZone.getBoundingClientRect(), cx = r.left + r.width/2, cy = r.top + r.height/2, max = r.width*0.34;
+    let dx=e.clientX-cx, dy=e.clientY-cy, len=Math.hypot(dx,dy); if(len>max){dx=dx/len*max;dy=dy/len*max;}
+    touchMoveVec={x:dx/max,y:dy/max};
+    document.getElementById('touch-stick').style.transform=`translate(${dx}px, ${dy}px)`;
+  }
+  action(action, down) {
+    if (action === 'fire') { isMouseDown = down; if (down && state.isPlaying && !state.isPaused) firePlayerWeapon(); }
+    if (action === 'jump') keys['Space'] = down;
+    if (action === 'sprint') keys['ShiftLeft'] = down;
+    if (action === 'crouch') keys['ControlLeft'] = down;
+    if (action === 'interact') keys['KeyE'] = down;
+    if (action === 'reload' && down) triggerReload();
+    if (action === 'ads' && down) togglePlayerADS();
+    if (action === 'weapon' && down) switchWeapon((state.player.weaponIndex + 1) % WEAPONS.length);
+  }
+  disable() { this.listeners.forEach(([t,type,fn,opts])=>t.removeEventListener(type,fn,opts)); this.listeners=[]; this.lookId=null; this.moveId=null; resetAllInputs(); }
+}
+
+function togglePlayerADS() {
+  if (!state.player.alive || state.player.isReloading) return;
+  state.player.isAds = !state.player.isAds;
+  const sniper = getCurrentWeapon().id === 'sniper';
+  document.getElementById('sniper-scope').style.display = state.player.isAds && sniper ? 'block' : 'none';
+  if (weaponGroup) weaponGroup.visible = !(state.player.isAds && sniper);
+}
+
+function setupInputEvents() {
+  if (pcInputController) pcInputController.disable();
+  if (ipadInputController) ipadInputController.disable();
+  const touchUI = document.getElementById('touch-controls');
+  if (currentDeviceMode === DEVICE_MODE.PC) {
+    document.body.classList.remove('ipad-mode'); touchUI.classList.add('hidden');
+    pcInputController = new PCInputController(); pcInputController.enable();
+  } else if (currentDeviceMode === DEVICE_MODE.IPAD) {
+    document.body.classList.add('ipad-mode'); touchUI.classList.remove('hidden');
+    ipadInputController = new IPadInputController(); ipadInputController.enable();
+  }
+}
+
+function selectDeviceMode(mode) {
+  if (mode !== DEVICE_MODE.PC && mode !== DEVICE_MODE.IPAD) return;
+  currentDeviceMode = mode;
+  try { localStorage.setItem('projectStrikeDeviceMode', mode); } catch (_) {}
+  document.getElementById('current-device-mode-label').textContent = mode === DEVICE_MODE.PC ? 'PC / KEYBOARD + MOUSE' : 'iPAD / TOUCH';
+  document.getElementById('last-device-mode').textContent = 'LAST SELECTED: ' + mode;
+  try {
+    if (!engineStarted) { initThreeEngine(); engineStarted = true; animate(); }
+    setupInputEvents();
+    document.getElementById('device-select-screen').classList.add('hidden');
+    document.getElementById('main-menu').classList.remove('hidden');
+  } catch (err) {
+    console.error('PROJECT STRIKE initialization failed:', err);
+    let errorBox = document.getElementById('device-init-error');
+    if (!errorBox) { errorBox = document.createElement('div'); errorBox.id = 'device-init-error'; errorBox.style.cssText = 'margin-top:18px;padding:12px;background:#450a0a;border:1px solid #fb7185;color:#fecaca;font:12px monospace;white-space:pre-wrap'; document.querySelector('.device-select-panel').appendChild(errorBox); }
+    errorBox.textContent = 'GAME INITIALIZATION FAILED\n' + (err && err.message ? err.message : String(err)) + '\nตรวจสอบ Console (F12) เพื่อดูรายละเอียด';
+  }
+}
+
+function openDeviceSelector() {
+  state.isPaused = true;
+  if (document.pointerLockElement) document.exitPointerLock();
+  if (pcInputController) pcInputController.disable(); if (ipadInputController) ipadInputController.disable();
+  document.getElementById('hud').classList.add('hidden');
+  document.getElementById('main-menu').classList.add('hidden');
+  document.getElementById('device-select-screen').classList.remove('hidden');
 }
 
 // ----------------------------------------------------------------------------
 // 15. INITIALIZATION & MAIN 60FPS ANIMATION LOOP
 // ----------------------------------------------------------------------------
-function resizeGameViewport() {
-  if (!camera || !renderer) return;
-  const width = Math.max(1, window.innerWidth);
-  const height = Math.max(1, window.innerHeight);
-  camera.aspect = width / height;
-  camera.updateProjectionMatrix();
-  renderer.setSize(width, height, false);
-}
-
 function initThreeEngine() {
-  // Detect touch capability locally; do not rely on an undeclared global.
-  // This keeps desktop startup independent from the iPad touch-control path.
+  if (engineStarted || renderer) return;
   const canvas = document.getElementById('game-canvas');
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0c1322);
@@ -3204,8 +3032,8 @@ function initThreeEngine() {
 
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-  renderer.shadowMap.enabled = !isTouch && state.settings.gfx !== 'LOW';
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, currentDeviceMode === DEVICE_MODE.IPAD ? 1.5 : 1.75));
+  renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   // Hemisphere & Directional Tactical Sunlight
@@ -3228,11 +3056,8 @@ function initThreeEngine() {
 
   buildTacticalMap();
   populateMenuArsenal();
-  setupInputEvents();
 
-  window.addEventListener('resize', resizeGameViewport, { passive: true });
-  window.addEventListener('orientationchange', resizeGameViewport, { passive: true });
-  resizeGameViewport();
+
 }
 
 function updateVisualEffects(dt) {
@@ -3278,10 +3103,16 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-window.onload = function () {
-  initThreeEngine();
-  animate();
-};
+window.addEventListener('load', () => {
+  // Require an explicit profile selection before creating the game engine or input listeners.
+  let previous = null; try { previous = localStorage.getItem('projectStrikeDeviceMode'); } catch (_) {}
+  const hint = previous ? `LAST USED: ${previous} — SELECT A MODE TO CONTINUE` : 'SELECT A CONTROL PROFILE TO CONTINUE';
+  document.getElementById('last-device-mode').textContent = hint;
+  document.getElementById('select-pc-mode').addEventListener('click', () => selectDeviceMode(DEVICE_MODE.PC));
+  document.getElementById('select-ipad-mode').addEventListener('click', () => selectDeviceMode(DEVICE_MODE.IPAD));
+  document.getElementById('change-device-mode').addEventListener('click', openDeviceSelector);
+  window.addEventListener('resize', () => { if (camera && renderer) { camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth,window.innerHeight); } });
+});
 </script>
 </body>
 </html>
