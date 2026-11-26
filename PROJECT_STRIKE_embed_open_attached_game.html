@@ -1161,6 +1161,10 @@ const state = {
   }
 };
 
+// Device capability detection shared by rendering and settings code.
+// Keep this at top-level so every function can safely reference it.
+const isTouch = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+
 // Input tracking
 const keys = {};
 let isMouseDown = false; // Mouse fire only; touch fire is tracked independently.
@@ -2775,8 +2779,7 @@ function updateSettings() {
       renderer.shadowMap.enabled = false;
       dirLight.castShadow = false;
     } else if (gfx === 'MEDIUM') {
-      const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isTouch ? 1.35 : 1.5));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isTouch ? 1.35 : 1.5));
       dirLight.castShadow = !isTouch;
     } else {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
@@ -3191,7 +3194,6 @@ function resizeGameViewport() {
 function initThreeEngine() {
   // Detect touch capability locally; do not rely on an undeclared global.
   // This keeps desktop startup independent from the iPad touch-control path.
-  const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
   const canvas = document.getElementById('game-canvas');
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0c1322);
