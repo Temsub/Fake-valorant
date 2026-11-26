@@ -3189,6 +3189,9 @@ function resizeGameViewport() {
 }
 
 function initThreeEngine() {
+  // Detect touch capability locally; do not rely on an undeclared global.
+  // This keeps desktop startup independent from the iPad touch-control path.
+  const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
   const canvas = document.getElementById('game-canvas');
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0c1322);
